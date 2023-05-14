@@ -92,11 +92,14 @@ export class IotDevice<T> {
     )
 
     mqttClient.on('foreignStateChange', (topic, message, s) => {
-      const currentState = this.onCurrentState.getValue()
+      logError(`foreignStateChange [${topic}] ${message}:`)
+      logError(`s = ${JSON.stringify(s, null, 2)}`)
 
+      const currentState = this.onCurrentState.getValue()
       if (!currentState || topic !== thingName) {
         return
       }
+      logError(`currentState = ${JSON.stringify(currentState, null, 2)}`)
 
       this.onCurrentState.next(
         assignState(
